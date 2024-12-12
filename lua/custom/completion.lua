@@ -6,22 +6,22 @@ opt.shortmess:append "c"
 local cmp = require "cmp"
 
 cmp.setup {
-  sources = {
+  sources = cmp.config.sources({
     { name = 'crates' },
     { name = 'luasnip' },
     { name = 'nvim_lsp' },
     { name = 'path' },
     { name = 'buffer' },
     { name = 'nvim_lsp_signature_help' },
-  },
-  mapping = {
+  }),
+  mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ['<C-Space>'] = cmp.mapping.complete(),
-  },
+    ["<C-Space>"] = cmp.mapping.complete(),
+  }),
   snippet = {
     expand = function(args)
       require('luasnip').lsp_expand(args.body) -- For `luasnip` users.

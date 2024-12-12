@@ -2,11 +2,21 @@ return {
   'neovim/nvim-lspconfig',
   dependencies = {
     {'j-hui/fidget.nvim', opts = {} },
+    "hrsh7th/cmp-nvim-lsp",
   },
   config = function()
     local lspconfig = require 'lspconfig'
+    local cmp_lsp = require 'cmp_nvim_lsp'
 
-    lspconfig.rust_analyzer.setup{
+    local capabilities = vim.tbl_deep_extend(
+      "force",
+      {},
+      vim.lsp.protocol.make_client_capabilities(),
+      cmp_lsp.default_capabilities()
+    )
+
+    lspconfig.rust_analyzer.setup({
+      capabilities = capabilities,
       settings = {
         ['rust-analyzer']={
           checkOnSave = {
@@ -17,7 +27,19 @@ return {
           },
         },
       },
-    }
+    })
+
+    vim.diagnostic.config({
+      -- update_in_insert = true,
+      float = {
+        focusable = true,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+      },
+    })
 
     vim.api.nvim_create_autocmd('LspAttach', {
       callback = function(args)
