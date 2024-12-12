@@ -1,21 +1,32 @@
-require("telescope").setup{
+require('telescope').setup{
   defaults = {
-    file_ignore_patterns = { "*.lock" },
+    file_ignore_patterns = { '*.lock' },
   },
   extensions = {
     wrap_results = true,
+    -- Add any configuration setup for fzf extensions here
     fzf = {},
-    ["ui-select"] = {
-      require("telescope.themes").get_dropdown {},
+    -- Configurations for ui-select here
+    ['ui-select'] = {
+      require('telescope.themes').get_dropdown {},
     },
   },
 }
 
-pcall(require("telescope").load_extension, "fzf")
-pcall(require("telescope").load_extension, "ui-select")
+local telescope_extensions = require 'telescope' -- Adding for convienience
 
-local builtin = require("telescope.builtin")
-local keymap = vim.keymap
+-- Loading extensions
+telescope_extensions.load_extension('fzf')
 
-keymap.set("n", "<leader>ff", builtin.find_files)
-keymap.set("n", "<leader>h", builtin.help_tags)
+local builtin = require('telescope.builtin') -- Adding for convienience
+local keymap = vim.keymap -- Adding for convienience
+
+-- Setting up keymaps
+keymap.set('n', '<leader>ff', builtin.find_files)
+keymap.set('n', '<leader>h', builtin.help_tags)
+keymap.set('n', '<leader>fb', builtin.buffers)
+keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find)
+
+keymap.set('n', '<leader>ts', builtin.treesitter)
+
+keymap.set('n', '<leader>gw', builtin.grep_string)
